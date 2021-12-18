@@ -41,11 +41,37 @@ function bucket_router(path_prefix: string, bucket_name: string) {
     });
   });
 
-  router.get('/:version/:platform/:filename', (req, res) => {
+  router.get('/:version/:platform/:filename', (req, res, next) => {
     const version = req.params.version;
     const platform = req.params.platform;
     const filename = req.params.filename;
-    res.send(`file: ${version} ${platform} ${filename}`);
+
+    const file = bucket.file(`${version}/${platform}/${filename}`);
+    file.exists({}, (err, exists) => {
+      if (err) {
+        next(err);
+      } else if (!exists) {
+        next(); // 404
+      } else {
+        const now = new Date();
+        const valid_seconds = 3600;
+        const deadline = new Date(now.getTime() + 1000 * valid_seconds);
+        file.getSignedUrl({
+          version: 'v4',
+          action: 'read',
+          expires: deadline
+        },
+          (err, url) => {
+            if (err) {
+              next(err);
+            } else if (!url) {
+              next(); // Unexpected
+            } else {
+              res.redirect(url);
+            }
+          });
+      }
+    });
   });
 
   return router;
