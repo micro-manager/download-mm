@@ -11,11 +11,12 @@ app.set('view engine', 'pug')
 
 app.use(helmet());
 
-app.use('/ci', bucket_router('ci.artifacts.locimmbuild.org'));
-app.use('/nightly', bucket_router('nightly.artifacts.locimmbuild.org'));
-app.use('/release', bucket_router('release.artifacts.locimmbuild.org'));
-app.use('/nightly-experimental',
-  bucket_router('nightly-experimental.artifacts.locimmbuild.org'));
+['ci', 'nightly', 'release', 'nightly-experimental'].
+  forEach(category => {
+    const prefix = `/${category}`;
+    const bucket_name = `${category}.artifacts.locimmbuild.org`;
+    app.use(prefix, bucket_router(prefix, bucket_name));
+  });
 
 app.get('/', (req, res) => {
   res.redirect('https://micro-manager.org/downloads');

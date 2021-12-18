@@ -2,4 +2,12 @@ html
   head
     title= title
   body
-    p= message
+    h1= title
+    if files.length == 0
+      div
+        span No files available.
+    each file in files
+      - var fname = file.name.split('/').pop()
+      div
+        span
+          a(href=`${link_prefix}${fname}`)= fname

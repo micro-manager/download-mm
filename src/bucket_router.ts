@@ -3,7 +3,8 @@ import {Storage} from '@google-cloud/storage';
 
 const storage = new Storage();
 
-function bucket_router(bucket_name: string) {
+function bucket_router(path_prefix: string, bucket_name: string) {
+  const buildtype = bucket_name.split('.')[0];
   const bucket = storage.bucket(bucket_name);
 
   const router = express.Router({ strict: true });
@@ -16,22 +17,25 @@ function bucket_router(bucket_name: string) {
   router.get('/:version/:platform/', (req, res, next) => {
     const version = req.params.version;
     const platform = req.params.platform;
+    const prefix = `${version}/${platform}/`;
 
-    bucket.getFiles({
-      prefix: `${version}/${platform}/`
-    }, (err, files) => {
+    bucket.getFiles({ prefix: prefix }, (err, files) => {
       if (err) {
         next(err);
       } else if (!files || files.length == 0) {
         next(); // 404
       } else {
+        const link_prefix = `${path_prefix}/${prefix}`;
         // If a folder exists with no files, we get a single "file" which is the
         // folder path with a trailing slash. Do not show this item.
-        const downloadables = files.filter(file => !file.name.endsWith('/'));
+        // Also sort in ascii descending order.
+        const leaves = files.filter(file => !file.name.endsWith('/')).
+          sort((a, b) => +(a.name < b.name) - +(a.name > b.name));
 
         res.render('directory', {
-          title: `${version}/${platform}`,
-          message: `${downloadables.length} file(s) available`
+          title: `Micro-Manager ${version} ${platform} ${buildtype} downloads`,
+          files: leaves,
+          link_prefix: link_prefix,
         });
       }
     });
