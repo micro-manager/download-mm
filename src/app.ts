@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
   res.redirect('https://micro-manager.org/downloads');
 });
 
-app.all('*', (req, res) => {
+app.use((req, res, next) => {
   res.status(404).send('404 Not Found');
 });
 
