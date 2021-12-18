@@ -6,6 +6,7 @@ import bucket_router = require('./bucket_router');
 const PORT = Number(process.env.PORT) || 8080;
 
 const app = express();
+app.enable('strict routing')
 
 app.use(helmet());
 
