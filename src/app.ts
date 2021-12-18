@@ -7,6 +7,7 @@ const PORT = Number(process.env.PORT) || 8080;
 
 const app = express();
 app.enable('strict routing')
+app.set('view engine', 'pug')
 
 app.use(helmet());
 

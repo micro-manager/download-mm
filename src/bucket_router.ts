@@ -29,7 +29,10 @@ function bucket_router(bucket_name: string) {
         // folder path with a trailing slash. Do not show this item.
         const downloadables = files.filter(file => !file.name.endsWith('/'));
 
-        res.send(`${downloadables.length} file(s) available`);
+        res.render('directory', {
+          title: `${version}/${platform}`,
+          message: `${downloadables.length} file(s) available`
+        });
       }
     });
   });
