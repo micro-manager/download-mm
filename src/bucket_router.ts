@@ -32,10 +32,21 @@ function bucket_router(path_prefix: string, bucket_name: string) {
         const leaves = files.filter(file => !file.name.endsWith('/')).
           sort((a, b) => +(a.name < b.name) - +(a.name > b.name));
 
-        res.render('directory', {
-          title: `Micro-Manager ${version} ${platform} ${buildtype} downloads`,
-          files: leaves,
-          link_prefix: link_prefix,
+        Promise.all(leaves.map(file => file.getMetadata())).then(md => {
+          const entries = [...Array(leaves.length).keys()].map(i => {
+            return {
+              name: leaves[i].name,
+              size: md[i][0].size
+            };
+          });
+
+          res.render('directory', {
+            title: `Micro-Manager ${version} ${platform} ${buildtype} downloads`,
+            files: entries,
+            link_prefix: link_prefix,
+          });
+        }, err => {
+          next(err);
         });
       }
     });

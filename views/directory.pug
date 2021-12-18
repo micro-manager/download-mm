@@ -6,8 +6,14 @@ html
     if files.length == 0
       div
         span No files available.
+    -
+      var sizeFormatter = new Intl.NumberFormat('en-US',
+        { maximumFractionDigits: 1, minimumFractionDigits: 1 })
     each file in files
       - var fname = file.name.split('/').pop()
+      - var nbsp = '\xa0'
+      - var sizeMiB = sizeFormatter.format(file.size / (1024 * 1024))
       div
         span
           a(href=`${link_prefix}${fname}`)= fname
+          | #{nbsp}(#{sizeMiB} MiB)
