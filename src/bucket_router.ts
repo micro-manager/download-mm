@@ -1,9 +1,7 @@
 import express = require('express');
 import {Storage} from '@google-cloud/storage';
 
-const storage = new Storage();
-
-function bucket_router(path_prefix: string, bucket_name: string) {
+function bucket_router(path_prefix: string, storage: Storage, bucket_name: string) {
   const buildtype = bucket_name.split('.')[0];
   const bucket = storage.bucket(bucket_name);
 
