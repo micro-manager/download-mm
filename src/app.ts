@@ -22,11 +22,11 @@ app.use(helmet());
     app.use(prefix, bucket_router(prefix, storage, bucket_name));
   });
 
-app.get('/latest-experimental/windows/MMSetup_x64_latest.exe',
+app.get('/latest/windows/MMSetup_x64_latest.exe',
   redirect_latest(storage, 'nightly.artifacts.locimmbuild.org',
     '/nightly', '2.0/Windows', '_64bit_'));
 
-app.get('/latest-experimental/macos/Micro-Manager-x86_64-latest.dmg',
+app.get('/latest/macos/Micro-Manager-x86_64-latest.dmg',
   redirect_latest(storage, 'nightly.artifacts.locimmbuild.org',
     '/nightly', '2.0/Mac', ''));
 
