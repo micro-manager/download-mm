@@ -67,6 +67,14 @@ function bucket_router(path_prefix: string, storage: Storage, bucket_name: strin
           }
         };
 
+        const compare_files = (a: any, b: any) => {
+          const r = +(a.date < b.date) - +(a.date > b.date);
+          if (r == 0) {
+            return +(a.name < b.name) - +(a.name > b.name);
+          }
+          return r;
+        };
+
         const leaves = files.
           filter(file => !file.name.endsWith('/')).  // Skip directory object
           map(file => ({
@@ -74,7 +82,7 @@ function bucket_router(path_prefix: string, storage: Storage, bucket_name: strin
             size: file.metadata.size,
             date: get_timestamp_ms(file),
           })).
-          sort((a, b) => +(a.date < b.date) - +(a.date > b.date));
+          sort(compare_files);
 
         res.render('directory', {
           title: `Micro-Manager ${version} ${platform} ${buildtype} downloads`,
