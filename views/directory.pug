@@ -2,6 +2,7 @@ html
   head
     title= title
     style(type='text/css') body { font-family: Sans-Serif; }
+    style(type='text/css') a.row32bit { color: green; font-style: oblique; }
   body
     h1= title
     if files.length == 0
@@ -15,8 +16,9 @@ html
       - var nbsp = '\xa0'
       - var sizeMiB = sizeFormatter.format(file.size / (1024 * 1024))
       - var dateStr = new Date(file.date).toISOString()
+      - var rowclass = file.name.includes('_32bit_') ? 'row32bit' : 'rowDefault'
       div
         span
-          a(href=`${link_prefix}${fname}`)= fname
+          a(class=`${rowclass}` href=`${link_prefix}${fname}`)= fname
           | #{nbsp}(#{sizeMiB} MiB)
           | #{nbsp}#{dateStr}
