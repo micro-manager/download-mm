@@ -58,15 +58,23 @@ function bucket_router(path_prefix: string, storage: Storage, bucket_name: strin
         next(); // 404
       } else {
         const link_prefix = `${path_prefix}/${prefix}`;
-        // If a folder exists with no files, we get a single "file" which is the
-        // folder path with a trailing slash. Do not show this item.
-        // Also sort in ascii descending order.
-        const leaves = files.filter(file => !file.name.endsWith('/')).
+
+        const get_timestamp_ms = (file: File) => {
+          if (file.metadata.metadata && 'valelab4-mtime' in file.metadata.metadata) {
+            return 1000 * parseInt(file.metadata.metadata['valelab4-mtime'])
+          } else {
+            return Date.parse(file.metadata.timeCreated);
+          }
+        };
+
+        const leaves = files.
+          filter(file => !file.name.endsWith('/')).  // Skip directory object
           map(file => ({
             name: file.name,
             size: file.metadata.size,
+            date: get_timestamp_ms(file),
           })).
-          sort((a, b) => +(a.name < b.name) - +(a.name > b.name));
+          sort((a, b) => +(a.date < b.date) - +(a.date > b.date));
 
         res.render('directory', {
           title: `Micro-Manager ${version} ${platform} ${buildtype} downloads`,

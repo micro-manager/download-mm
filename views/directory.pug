@@ -14,7 +14,9 @@ html
       - var fname = file.name.split('/').pop()
       - var nbsp = '\xa0'
       - var sizeMiB = sizeFormatter.format(file.size / (1024 * 1024))
+      - var dateStr = new Date(file.date).toISOString()
       div
         span
           a(href=`${link_prefix}${fname}`)= fname
           | #{nbsp}(#{sizeMiB} MiB)
+          | #{nbsp}#{dateStr}
