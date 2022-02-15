@@ -1,6 +1,6 @@
 import express = require('express');
 import helmet = require('helmet');
-import {Storage} from '@google-cloud/storage';
+import { Storage } from '@google-cloud/storage';
 
 import bucket_router = require('./bucket_router');
 import redirect_latest = require('./redirect_latest');

@@ -1,5 +1,5 @@
 import express = require('express');
-import {Storage, Bucket, File} from '@google-cloud/storage';
+import { Storage, Bucket, File } from '@google-cloud/storage';
 
 function redirect_to_signed_download_url(req: express.Request, res: express.Response, next: express.NextFunction, file: File) {
   file.exists({}, (err, exists) => {

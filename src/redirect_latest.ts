@@ -1,5 +1,5 @@
 import express = require('express');
-import {Storage} from '@google-cloud/storage';
+import { Storage } from '@google-cloud/storage';
 import bucket_router = require('./bucket_router');
 
 function redirect_latest(storage: Storage, bucket_name: string,
