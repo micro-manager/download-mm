@@ -1,7 +1,7 @@
 html
   head
     title= title
-    style(type='text/css') body { font-family: Sans-Serif; }
+    style(type='text/css') body { font-family: monospace; }
     style(type='text/css') a.row32bit { color: green; font-style: oblique; }
   body
     h1= title
@@ -20,5 +20,4 @@ html
       div
         span
           a(class=`${rowclass}` href=`${link_prefix}${fname}`)= fname
-          | #{nbsp}(#{sizeMiB} MiB)
-          | #{nbsp}#{dateStr}
+          | #{nbsp}(#{sizeMiB} MiB)#{nbsp}#{dateStr}
