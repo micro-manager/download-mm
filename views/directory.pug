@@ -13,7 +13,7 @@ html
     each file in files
       - var fname = file.name.split('/').pop()
       - var nbsp = '\xa0'
-      - var sizeMiB = sizeFormatter.format(file.metadata.size / (1024 * 1024))
+      - var sizeMiB = sizeFormatter.format(file.size / (1024 * 1024))
       div
         span
           a(href=`${link_prefix}${fname}`)= fname

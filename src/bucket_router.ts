@@ -62,6 +62,10 @@ function bucket_router(path_prefix: string, storage: Storage, bucket_name: strin
         // folder path with a trailing slash. Do not show this item.
         // Also sort in ascii descending order.
         const leaves = files.filter(file => !file.name.endsWith('/')).
+          map(file => ({
+            name: file.name,
+            size: file.metadata.size,
+          })).
           sort((a, b) => +(a.name < b.name) - +(a.name > b.name));
 
         res.render('directory', {
