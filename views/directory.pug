@@ -6,6 +6,8 @@ html
     style(type='text/css') a.row32bit { color: green; font-style: oblique; }
   body
     h1= title
+    p
+      a(href='/') Back to Downloads
     if buildtype == 'ci' || buildtype.includes('experimental')
       p
         | These builds are for developer testing only. Please do not use them in
