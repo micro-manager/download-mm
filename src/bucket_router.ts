@@ -85,7 +85,9 @@ function bucket_router(path_prefix: string, storage: Storage, bucket_name: strin
           sort(compare_files);
 
         res.render('directory', {
-          title: `Micro-Manager ${version} ${platform} ${buildtype} downloads`,
+          version: version,
+          platform: platform,
+          buildtype: buildtype,
           files: leaves,
           link_prefix: link_prefix,
         });
