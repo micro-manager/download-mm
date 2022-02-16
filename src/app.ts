@@ -15,6 +15,10 @@ app.set('view engine', 'pug')
 
 app.use(helmet());
 
+const robots_txt = `User-agent: *
+Disallow: /
+`;
+
 ['ci', 'nightly', 'release', 'nightly-experimental'].
   forEach(category => {
     const prefix = `/${category}`;
@@ -32,6 +36,11 @@ app.get('/latest/macos/Micro-Manager-x86_64-latest.dmg',
 
 app.get('/', (req, res) => {
   res.redirect('https://micro-manager.org/downloads');
+});
+
+app.get('/robots.txt', (req, res) => {
+  res.set('Content-Type', 'text/plain')
+  res.send(robots_txt);
 });
 
 app.use((req, res, next) => {
