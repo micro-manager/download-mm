@@ -16,6 +16,10 @@ html
       p
         | These CI (continuous integration) builds are automatically deleted
         | after 14 days.
+    if buildtype == 'nightly'
+      p
+        | Nightly builds may be skipped when no changes have been made to the
+        | source code since the previous nightly build.
     if files.length == 0
       div
         span No files available.
