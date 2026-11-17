@@ -61,9 +61,9 @@ function bucket_router(path_prefix: string, storage: Storage, bucket_name: strin
 
         const get_timestamp_ms = (file: File) => {
           if (file.metadata.metadata && 'valelab4-mtime' in file.metadata.metadata) {
-            return 1000 * parseInt(file.metadata.metadata['valelab4-mtime'])
+            return 1000 * parseInt(String(file.metadata.metadata['valelab4-mtime']))
           } else {
-            return Date.parse(file.metadata.timeCreated);
+            return Date.parse(file.metadata.timeCreated!);
           }
         };
 
